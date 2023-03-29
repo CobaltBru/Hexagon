@@ -27,7 +27,6 @@ public class Player : MonoBehaviour
             var x = radius * Mathf.Sin(rad);
             var y = radius * Mathf.Cos(rad);
             rigid.transform.position = new Vector3(x, y);
-            Debug.Log(x+ " " + y);
             rigid.transform.rotation = Quaternion.Euler(0, 0, deg * -1);
         }
     }
