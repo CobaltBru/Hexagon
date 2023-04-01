@@ -6,9 +6,7 @@ using UnityEngine;
 public class PolygonGenerator : MonoBehaviour
 {
     Mesh mesh;
-    Vector3[] Hexanode;
-    Vector3[] Pentanode;
-    Vector3[] Squarenode;
+
     int[] pentagonIdx1;
     int[] pentagonIdx2;
     int[] pentagonIdx3;
@@ -32,60 +30,55 @@ public class PolygonGenerator : MonoBehaviour
         squareIdx1 = new int[] { 0, 1, 2, 6, 7, 8 };
         squareIdx2 = new int[] { 3, 4, 5, 9, 10, 11 };
     }
-    public Vector3[] Hexagon(float radius)
+    
+    public Vector3[] PolygonFunc(float radius, int vertex, float firstDegree)
     {
-        Hexanode = new Vector3[18];
-        float deg = 0;
-        for(int j =0;j<6;j++)
+        Vector3[] node = new Vector3[vertex * 3];
+        float deg = 360/vertex;
+        for (int j = 0; j < vertex; j++)
         {
-            Hexanode[j*3] = new Vector3(0, 0);
+            node[j * 3] = new Vector3(0, 0);
             for (int i = 1; i <= 2; i++)
             {
-                var rad = Mathf.Deg2Rad * (deg + 60 * (j+i-1));
+                var rad = Mathf.Deg2Rad * (deg * (j + i - 1));
                 var x = radius * Mathf.Sin(rad);
                 var y = radius * Mathf.Cos(rad);
-                Hexanode[j*3+i] = new Vector3(x, y);
+                node[j * 3 + i] = new Vector3(x, y);
             }
         }
-           
-        return Hexanode;
-    }
-    public Vector3[] Pentagon(float radius)
-    {
-        Pentanode = new Vector3[15];
-        float deg = 0;
-        for (int j = 0; j < 5; j++)
-        {
-            Pentanode[j * 3] = new Vector3(0, 0);
-            for (int i = 1; i <= 2; i++)
-            {
-                var rad = Mathf.Deg2Rad * (deg + 72 * (j + i - 1));
-                var x = radius * Mathf.Sin(rad);
-                var y = radius * Mathf.Cos(rad);
-                Pentanode[j * 3 + i] = new Vector3(x, y);
-            }
-        }
-        return Pentanode;
+
+        return node;
     }
 
-    public Vector3[] Square(float radius)
+    public Vector3[] PolygonFunctmp(float radius, int vertex, float firstDegree)
     {
+        Vector3[] node = new Vector3[vertex * 3];
+        float deg = (360-firstDegree) / (vertex-1);
 
-        Squarenode = new Vector3[12];
-        float deg = 0;
-        for (int j = 0; j < 4; j++)
+        node[0] = new Vector3(0, 0);
+        for (int i = 1; i <= 2; i++)
         {
-            Squarenode[j * 3] = new Vector3(0, 0);
+            var rad = Mathf.Deg2Rad * (firstDegree * (i - 1));
+            var x = radius * Mathf.Sin(rad);
+            var y = radius * Mathf.Cos(rad);
+            node[i] = new Vector3(x, y);
+        }
+
+        for (int j = 1; j < vertex; j++)
+        {
+            node[j * 3] = new Vector3(0, 0);
             for (int i = 1; i <= 2; i++)
             {
-                var rad = Mathf.Deg2Rad * (deg + 90 * (j + i - 1));
+                var rad = Mathf.Deg2Rad * ((deg * (j + i - 2))+firstDegree);
                 var x = radius * Mathf.Sin(rad);
                 var y = radius * Mathf.Cos(rad);
-                Squarenode[j * 3 + i] = new Vector3(x, y);
+                node[j * 3 + i] = new Vector3(x, y);
             }
         }
-        return Squarenode;
+
+        return node;
     }
+
     public void createProceduralMesh(Vector3[] vertex)
     {
         mesh.Clear();
