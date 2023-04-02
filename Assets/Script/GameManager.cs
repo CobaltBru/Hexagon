@@ -22,21 +22,21 @@ public class GameManager : MonoBehaviour
     Vector3[] MiddleOutNode;
     Vector3[] MiddleInNode;
     
-    void Awake()
+    void Start()
     {
         polyold = 6;
         tmppoly = 6;
         firstin= false;
         //¹è°æ
-        BackGroundNode = BackGroundpoly.PolygonFunc(radius, tmppoly, 60);
+        BackGroundNode = BackGroundpoly.PolygonFunc(radius, tmppoly, 60.0f);
         BackGroundpoly.createProceduralMesh(BackGroundNode);
 
         //Áß¾Ó ¹Ù±ù
-        MiddleOutNode = MiddleOutPoly.PolygonFunc(radius2, tmppoly, 60);
+        MiddleOutNode = MiddleOutPoly.PolygonFunc(radius2, tmppoly, 60.0f);
         MiddleOutPoly.createProceduralMesh(MiddleOutNode);
 
         //Áß¾Ó Áß¾Ó
-        MiddleInNode = MiddleInPoly.PolygonFunc(radius3, tmppoly, 60);
+        MiddleInNode = MiddleInPoly.PolygonFunc(radius3, tmppoly, 60.0f);
         MiddleInPoly.createProceduralMesh(MiddleInNode);
     }
 
@@ -85,7 +85,7 @@ public class GameManager : MonoBehaviour
                 }
             }
             //¹è°æ
-            BackGroundNode = BackGroundpoly.PolygonFunctmp(radius, tmppoly, firstDegree);
+            BackGroundNode = BackGroundpoly.PolygonFunc(radius, tmppoly, firstDegree);
             BackGroundpoly.createProceduralMesh(BackGroundNode);
 
             //Áß¾Ó ¹Ù±ù

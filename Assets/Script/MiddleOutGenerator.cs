@@ -9,11 +9,9 @@ public class MiddleOutGenerator : MonoBehaviour
     int[] pentagonIdx;
     int[] hexagonIdx;
     int[] squareIdx;
-    Material[] mts;
     void Awake()
     {
         mesh = GetComponent<MeshFilter>().mesh;
-        mts = GetComponent<Renderer>().materials;
         hexagonIdx = new int[] { 0, 1, 2, 0, 2, 3, 0, 3, 4, 0, 4, 5, 0, 5, 6, 0, 6, 1 };
         pentagonIdx = new int[] { 0, 1, 2, 0, 2, 3, 0, 3, 4, 0, 4, 5, 0, 5, 1,};
         squareIdx = new int[] { 0, 1, 2, 0, 2, 3, 0, 3, 4, 0, 4, 1, };

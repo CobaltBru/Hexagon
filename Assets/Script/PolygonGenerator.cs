@@ -31,26 +31,9 @@ public class PolygonGenerator : MonoBehaviour
         squareIdx2 = new int[] { 3, 4, 5, 9, 10, 11 };
     }
     
+    
+
     public Vector3[] PolygonFunc(float radius, int vertex, float firstDegree)
-    {
-        Vector3[] node = new Vector3[vertex * 3];
-        float deg = 360/vertex;
-        for (int j = 0; j < vertex; j++)
-        {
-            node[j * 3] = new Vector3(0, 0);
-            for (int i = 1; i <= 2; i++)
-            {
-                var rad = Mathf.Deg2Rad * (deg * (j + i - 1));
-                var x = radius * Mathf.Sin(rad);
-                var y = radius * Mathf.Cos(rad);
-                node[j * 3 + i] = new Vector3(x, y);
-            }
-        }
-
-        return node;
-    }
-
-    public Vector3[] PolygonFunctmp(float radius, int vertex, float firstDegree)
     {
         Vector3[] node = new Vector3[vertex * 3];
         float deg = (360-firstDegree) / (vertex-1);
