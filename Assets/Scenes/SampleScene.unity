@@ -152,9 +152,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ddc5f3339b54d524ebfaffa89d6ac990, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  square: {fileID: 0}
-  middle: {fileID: 0}
-  gameManager: {fileID: 1249533118}
 --- !u!4 &375293783
 Transform:
   m_ObjectHideFlags: 0
@@ -401,6 +398,8 @@ MonoBehaviour:
   MiddleOutPoly: {fileID: 1995763597}
   MiddleInPoly: {fileID: 1656235291}
   polygon: 6
+  BackGroundNode: []
+  MiddleOutNode: []
 --- !u!4 &1249533119
 Transform:
   m_ObjectHideFlags: 0
