@@ -5,21 +5,20 @@ using UnityEngine;
 public class Note : MonoBehaviour
 {
     Mesh mesh;
-    Vector3[] square;
-    
-    void Start()
+    Vector3 up1;
+    Vector3 up2;
+    Vector3 down1;
+    Vector3 down2;
+    double time;
+    GameManager gameManager;
+    void Awake()
     {
-        square = new Vector3[4];
-    }
 
-    // Update is called once per frame
+    }
     void Update()
     {
         
-    }
 
-    void createNode(Vector3 outer, Vector3 inner, float time)
-    {
 
     }
 }

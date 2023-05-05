@@ -11,8 +11,7 @@ public class Spawner : MonoBehaviour
     Vector3[] MiddleOutNode;
     void Awake()
     {
-        BackGroundNode = gameManager.BackGroundNode;
-        MiddleOutNode = gameManager.MiddleOutNode;
+       
     }
     void Update()
     {
