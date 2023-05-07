@@ -21,9 +21,9 @@ public class PolygonGenerator : MonoBehaviour
     int tmppoly;
     float firstDegree;
     bool firstin;
-    Vector3[] BackGroundNode;
-    Vector3[] MiddleOutNode;
-    Vector3[] MiddleInNode;
+    public Vector3[] BackGroundNode;
+    public Vector3[] MiddleOutNode;
+    public Vector3[] MiddleInNode;
 
     void Awake()
     {
