@@ -395,6 +395,9 @@ MonoBehaviour:
   MiddleOutPoly: {fileID: 1995763601}
   MiddleInPoly: {fileID: 1656235295}
   polygon: 6
+  BackGroundNode: []
+  MiddleOutNode: []
+  MiddleInNode: []
 --- !u!4 &1069609154
 Transform:
   m_ObjectHideFlags: 0

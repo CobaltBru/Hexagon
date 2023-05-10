@@ -49,6 +49,7 @@ public class PolygonGenerator : MonoBehaviour
 
     void Update()
     {
+        speed = gameManager.GameSpeed;
         if (polyold != polygon)
         {
             if (polyold > polygon)

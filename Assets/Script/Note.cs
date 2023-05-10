@@ -15,12 +15,11 @@ public class Note : MonoBehaviour
     Vector3 down2;
     int currentEdge;
     double time;
-    
-    double calcPoint(Vector3 start, Vector3 end, double currentTime)
+    double len = 5.5;
+    void calcPoint(Vector3 start, Vector3 end, double currentTime)
     {
         double ans;
 
-        return ans;
     }
 
 
