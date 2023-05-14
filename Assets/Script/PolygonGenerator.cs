@@ -7,8 +7,8 @@ using UnityEngine;
 public class PolygonGenerator : MonoBehaviour
 {
     public GameManager gameManager;
-    
 
+    
     public BackgroundGenerator BackGroundpoly;
     public MiddleOutGenerator MiddleOutPoly;
     public MiddleInGenerator MiddleInPoly;
@@ -25,26 +25,17 @@ public class PolygonGenerator : MonoBehaviour
     public Vector3[] MiddleOutNode;
     public Vector3[] MiddleInNode;
 
-    void Awake()
+    void Start()
     {
         radius = 6.0f;
         radius2 = 0.5f;
         radius3 = 0.435f;
         speed = gameManager.GameSpeed;
-        polyold = 6;
-        tmppoly = 6;
+        polyold = polygon;
+        tmppoly = polygon;
         firstin = false;
-        //¹è°æ
-        BackGroundNode = BackGroundpoly.PolygonFunc(radius, tmppoly, 60.0f);
-        BackGroundpoly.createProceduralMesh(BackGroundNode);
-
-        //Áß¾Ó ¹Ù±ù
-        MiddleOutNode = MiddleOutPoly.PolygonFunc(radius2, tmppoly, 60.0f);
-        MiddleOutPoly.createProceduralMesh(MiddleOutNode);
-
-        //Áß¾Ó Áß¾Ó
-        MiddleInNode = MiddleInPoly.PolygonFunc(radius3, tmppoly, 60.0f);
-        MiddleInPoly.createProceduralMesh(MiddleInNode);
+        firstDegree = 360 / polygon;
+        drawBackground();
     }
 
     void Update()
@@ -91,18 +82,23 @@ public class PolygonGenerator : MonoBehaviour
                     }
                 }
             }
-            //¹è°æ
-            BackGroundNode = BackGroundpoly.PolygonFunc(radius, tmppoly, firstDegree);
-            BackGroundpoly.createProceduralMesh(BackGroundNode);
-
-            //Áß¾Ó ¹Ù±ù
-            MiddleOutNode = MiddleOutPoly.PolygonFunc(radius2, tmppoly, firstDegree);
-            MiddleOutPoly.createProceduralMesh(MiddleOutNode);
-
-            //Áß¾Ó Áß¾Ó
-            MiddleInNode = MiddleInPoly.PolygonFunc(radius3, tmppoly, firstDegree);
-            MiddleInPoly.createProceduralMesh(MiddleInNode);
+            drawBackground();
+            
         }
+    }
+    void drawBackground()
+    {
+        //¹è°æ
+        BackGroundNode = BackGroundpoly.PolygonFunc(radius, tmppoly, firstDegree);
+        BackGroundpoly.createProceduralMesh(BackGroundNode);
+
+        //Áß¾Ó ¹Ù±ù
+        MiddleOutNode = MiddleOutPoly.PolygonFunc(radius2, tmppoly, firstDegree);
+        MiddleOutPoly.createProceduralMesh(MiddleOutNode);
+
+        //Áß¾Ó Áß¾Ó
+        MiddleInNode = MiddleInPoly.PolygonFunc(radius3, tmppoly, firstDegree);
+        MiddleInPoly.createProceduralMesh(MiddleInNode);
     }
     float calcChangeDegree(int one, int two)
     {
@@ -121,5 +117,13 @@ public class PolygonGenerator : MonoBehaviour
         polygon = poly;
     }
 
+    public float getLen()
+    {
+        return radius - radius2;
+    }
 
+    public Vector3[] getOutPoly() { return BackGroundNode; }
+    public Vector3[] getInPoly() { return MiddleOutNode; }
+    public int getCurrentPoly() { return polyold; }
+    public float getfirstDegree() { return firstDegree; }
 }

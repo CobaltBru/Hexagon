@@ -9,13 +9,15 @@ public class Note : MonoBehaviour
     public GameManager gameManager;
     public int speed;
     Vector3[] point;
+    Vector3[] outPoly;
+    Vector3[] inPoly;
     Vector3 up1;
     Vector3 up2;
     Vector3 down1;
     Vector3 down2;
     int currentEdge;
-    double time;
-    double len = 5.5;
+    double boxSize;
+    double len;
     void calcPoint(Vector3 start, Vector3 end, double currentTime)
     {
         double ans;
@@ -26,6 +28,7 @@ public class Note : MonoBehaviour
     void Awake()
     {
         point= new Vector3[4] {up1,up2,down2,down1};
+        len = polygonGenerator.getLen();
     }
     void Update()
     {
@@ -34,9 +37,28 @@ public class Note : MonoBehaviour
 
     }
 
-    void callNote(int num, double time)
+    void callNote(int num, double boxSize)
     {
         currentEdge= num;
-        this.time = time;
+        this.boxSize = boxSize;
+    }
+    Vector3[] getSquare()
+    {
+        Vector3[] points = new Vector3[4];
+        int vertex = polygonGenerator.getCurrentPoly();
+        float firstDegree = polygonGenerator.getfirstDegree();
+        if(vertex == 4)
+        {
+
+        }
+        else if(vertex == 5)
+        {
+
+        }
+        else if(vertex == 6)
+        {
+
+        }
+        return points;
     }
 }

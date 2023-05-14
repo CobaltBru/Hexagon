@@ -9,9 +9,12 @@ public class GameManager : MonoBehaviour
     public int GameSpeed;
     public PolygonGenerator polygonGenerator;
     
+    
     void Start()
     {
         polygonGenerator.setPoly(6);
+        
+
     }
 
     
