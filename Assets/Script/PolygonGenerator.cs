@@ -126,4 +126,6 @@ public class PolygonGenerator : MonoBehaviour
     public Vector3[] getInPoly() { return MiddleOutNode; }
     public int getCurrentPoly() { return polyold; }
     public float getfirstDegree() { return firstDegree; }
+    public float getOutRadius() { return radius; }
+    public float getInRadius() { return radius2; }
 }

@@ -18,21 +18,23 @@ public class Note : MonoBehaviour
     int currentEdge;
     double boxSize;
     double len;
-    void calcPoint(Vector3 start, Vector3 end, double currentTime)
-    {
-        double ans;
-
-    }
-
+    int vertex;
+    int currentLen;
 
     void Awake()
     {
-        point= new Vector3[4] {up1,up2,down2,down1};
+        outPoly = new Vector3[6];
+        inPoly = new Vector3[6];
+        point = new Vector3[4];
         len = polygonGenerator.getLen();
+        currentLen = 0;
+        vertex = polygonGenerator.getCurrentPoly();
+        init();
+        
     }
     void Update()
     {
-        
+        currentLen = currentLen + (Time.deltaTime * speed);
 
 
     }
@@ -42,23 +44,47 @@ public class Note : MonoBehaviour
         currentEdge= num;
         this.boxSize = boxSize;
     }
-    Vector3[] getSquare()
+    void calcPoint()
     {
-        Vector3[] points = new Vector3[4];
-        int vertex = polygonGenerator.getCurrentPoly();
+        vertex = polygonGenerator.getCurrentPoly();
         float firstDegree = polygonGenerator.getfirstDegree();
-        if(vertex == 4)
-        {
+        float radius1 = polygonGenerator.getOutRadius();
+        float radius2 = polygonGenerator.getInRadius();
+        float deg = (360 - firstDegree) / (vertex - 1);
 
-        }
-        else if(vertex == 5)
+        for (int i = 1; i <= 2; i++)
         {
-
+            var rad = Mathf.Deg2Rad * (firstDegree * (i - 1));
+            var x = radius1 * Mathf.Sin(rad);
+            var y = radius1 * Mathf.Cos(rad);
+            outPoly[i] = new Vector3(x, y);
+            x = radius2 * Mathf.Sin(rad);
+            y = radius2 * Mathf.Cos(rad);
+            inPoly[i] = new Vector3(x, y);
         }
-        else if(vertex == 6)
+        for (int i = 3; i <= vertex; i++)
         {
-
+            var rad = Mathf.Deg2Rad * ((deg * (i - 2)) + firstDegree);
+            if (i == 1) rad = 0;
+            var x = radius1 * Mathf.Sin(rad);
+            var y = radius1 * Mathf.Cos(rad);
+            node[i] = new Vector3(x, y);
+            x = radius2 * Mathf.Sin(rad);
+            y = radius2 * Mathf.Cos(rad);
+            inPoly[i] = new Vector3(x, y);
         }
-        return points;
+    }
+    void calcSquare()
+    {
+        up1 = outPoly[currentEdge];
+        up2 = outPoly[(currentEdge + 1)%vertex];
+        down1 = inPoly[currentEdge];
+        down2 = inPoly[(currentEdge + 1)%vertex];
+    }
+    void init()
+    {
+        calcPoint();
+        calcSquare();
+        point =  { up1, up2, down2, down1 };
     }
 }
