@@ -34,11 +34,17 @@ public class Note : MonoBehaviour
     }
     void Update()
     {
-        currentLen = currentLen + (Time.deltaTime * speed);
+        
 
 
     }
 
+    void calcNote(ref Vector3 p1, ref Vector3 p2)
+    {
+        p1 = Vector3.Lerp(p1, down1, Time.deltaTime);
+        p2 = Vector3.Lerp(p2, down2, Time.deltaTime);
+    }
+    
     void callNote(int num, double boxSize)
     {
         currentEdge= num;
@@ -68,7 +74,7 @@ public class Note : MonoBehaviour
             if (i == 1) rad = 0;
             var x = radius1 * Mathf.Sin(rad);
             var y = radius1 * Mathf.Cos(rad);
-            node[i] = new Vector3(x, y);
+            outPoly[i] = new Vector3(x, y);
             x = radius2 * Mathf.Sin(rad);
             y = radius2 * Mathf.Cos(rad);
             inPoly[i] = new Vector3(x, y);
@@ -85,6 +91,9 @@ public class Note : MonoBehaviour
     {
         calcPoint();
         calcSquare();
-        point =  { up1, up2, down2, down1 };
+        point[0] = up1;
+        point[1] = up2;
+        point[2] = down1;
+        point[3] = down2;
     }
 }

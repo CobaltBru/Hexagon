@@ -10,8 +10,8 @@ public class PolygonGenerator : MonoBehaviour
 
     
     public BackgroundGenerator BackGroundpoly;
-    public MiddleOutGenerator MiddleOutPoly;
-    public MiddleInGenerator MiddleInPoly;
+    public MiddleGenerator MiddleOutPoly;
+    public MiddleGenerator MiddleInPoly;
     public int polygon;
     float radius;
     float radius2;
