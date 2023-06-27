@@ -7,13 +7,14 @@ using UnityEngine.UIElements;
 public class GameManager : MonoBehaviour
 {
     public int GameSpeed;
+    public Note note;
     public PolygonGenerator polygonGenerator;
     
     
     void Start()
     {
         polygonGenerator.setPoly(6);
-        
+        note.callNote(2, 3000.0f);
 
     }
 

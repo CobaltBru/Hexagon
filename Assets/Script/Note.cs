@@ -7,49 +7,77 @@ public class Note : MonoBehaviour
     Mesh mesh;
     public PolygonGenerator polygonGenerator;
     public GameManager gameManager;
-    public int speed;
-    Vector3[] point;
+    int speed;
     Vector3[] outPoly;
     Vector3[] inPoly;
+    Vector3[] noteBlock;
+    int[] noteBlockIdx;
+
     Vector3 up1;
     Vector3 up2;
     Vector3 down1;
     Vector3 down2;
-    int currentEdge;
-    double boxSize;
-    double len;
-    int vertex;
-    int currentLen;
 
-    void Awake()
+    int currentEdge;
+    float timeLen; // 노트의 길이
+    int vertex;
+    float time;
+
+    public Note(int num, float timeLen)
     {
-        outPoly = new Vector3[6];
-        inPoly = new Vector3[6];
-        point = new Vector3[4];
-        len = polygonGenerator.getLen();
-        currentLen = 0;
+        currentEdge = num;
+        this.timeLen = timeLen;
+    }
+
+    public void callNote(int num, float timeLen)
+    {
+        currentEdge = num;
+        this.timeLen = timeLen;
+        gameObject.SetActive(true);
+    }
+
+    void Start()
+    {
+        mesh = GetComponent<MeshFilter>().mesh;
+        outPoly = new Vector3[7];
+        inPoly = new Vector3[7];
+        noteBlock = new Vector3[4];
+        noteBlockIdx = new int[] { 0,3,2,0,2,1 };
         vertex = polygonGenerator.getCurrentPoly();
-        init();
+        vertex = 6;
         
     }
     void Update()
     {
+        init();
+        time += Time.deltaTime * speed;
+        if(time<2000f)
+        {
+            callDown(time / 2000);
+        }
         
-
-
+        if(time>timeLen)
+        {
+            callUp((time - timeLen) / 2000);
+        }
+        createProceduralMesh();
+        Debug.Log(time + " " + noteBlock[0] + " " + noteBlock[1] + " " + noteBlock[2] + " " + noteBlock[3]);
     }
 
-    void calcNote(ref Vector3 p1, ref Vector3 p2)
+    void callDown(float p)
     {
-        p1 = Vector3.Lerp(p1, down1, Time.deltaTime);
-        p2 = Vector3.Lerp(p2, down2, Time.deltaTime);
+        noteBlock[2] = Vector3.Lerp(up1, down1, p);
+        noteBlock[3] = Vector3.Lerp(up2, down2, p);
     }
+    void callUp(float p)
+    {
+        noteBlock[0] = Vector3.Lerp(up1, down1, p);
+        noteBlock[1] = Vector3.Lerp(up2, down2, p);
+    }
+
+
     
-    void callNote(int num, double boxSize)
-    {
-        currentEdge= num;
-        this.boxSize = boxSize;
-    }
+    
     void calcPoint()
     {
         vertex = polygonGenerator.getCurrentPoly();
@@ -89,11 +117,17 @@ public class Note : MonoBehaviour
     }
     void init()
     {
+        speed = gameManager.GameSpeed;
         calcPoint();
         calcSquare();
-        point[0] = up1;
-        point[1] = up2;
-        point[2] = down1;
-        point[3] = down2;
+    }
+
+    public void createProceduralMesh()
+    {
+        mesh.Clear();
+
+        mesh.vertices = noteBlock;
+        mesh.triangles = noteBlockIdx;
+        mesh.RecalculateNormals();
     }
 }

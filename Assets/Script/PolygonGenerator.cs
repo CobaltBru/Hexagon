@@ -117,10 +117,6 @@ public class PolygonGenerator : MonoBehaviour
         polygon = poly;
     }
 
-    public float getLen()
-    {
-        return radius - radius2;
-    }
 
     public Vector3[] getOutPoly() { return BackGroundNode; }
     public Vector3[] getInPoly() { return MiddleOutNode; }
