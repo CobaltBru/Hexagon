@@ -4,25 +4,25 @@ using UnityEngine;
 
 public class Note : MonoBehaviour
 {
-    Mesh mesh;
-    public PolygonGenerator polygonGenerator;
-    public GameManager gameManager;
-    int speed;
-    Vector3[] outPoly;
-    Vector3[] inPoly;
-    Vector3[] noteBlock;
-    int[] noteBlockIdx;
+    Mesh mesh; //메쉬
+    public PolygonGenerator polygonGenerator; // 첫각도와 배경이 몇각형인지 받아온다
+    public GameManager gameManager; //게임 속도를 받아온다.
+    int speed; //게임속도 저장
+    Vector3[] outPoly; //바깥 다각형의 좌표 저장
+    Vector3[] inPoly; //안쪽 다각형의 좌표 저장
+    Vector3[] noteBlock; //사각형 노트블럭의 4개의 좌표 저장
+    int[] noteBlockIdx; //메쉬에 쓸 노트블럭 렌더링 인덱스
 
-    Vector3 up1;
-    Vector3 up2;
-    Vector3 down1;
-    Vector3 down2;
+    Vector3 up1; //노트블럭 사각형의 오른쪽 위
+    Vector3 up2; //왼쪽 위
+    Vector3 down1; //오른쪽 아래
+    Vector3 down2; //왼쪽 아래
 
-    int currentEdge;
+    int currentEdge; //어느위치에서 내려올 것인지
     float timeLen; // 노트의 길이
-    int vertex;
-    int changed_vertex;
-    float time;
+    int vertex; //호출한 시점에서 배경 다각형의 꼭짓점 수
+    int changed_vertex; //배경 다각형의 꼭짓점 수가 변하는지 체크
+    float time; //시간
 
     public Note(int num, float timeLen)
     {
@@ -125,9 +125,9 @@ public class Note : MonoBehaviour
     {
         speed = gameManager.GameSpeed;
         changed_vertex = polygonGenerator.getCurrentPoly();
-        if(vertex != changed_vertex)
+        if (vertex > changed_vertex)
         {
-            if(currentEdge==0)
+            if (currentEdge == 0)
             {
                 gameObject.SetActive(false);
                 return;
@@ -136,7 +136,11 @@ public class Note : MonoBehaviour
             {
                 currentEdge--;
             }
-            
+
+        }
+        else if(vertex < changed_vertex)
+        {
+            currentEdge++;
         }
         calcPoint();
         calcSquare();
