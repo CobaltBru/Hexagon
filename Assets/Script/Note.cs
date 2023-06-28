@@ -21,6 +21,7 @@ public class Note : MonoBehaviour
     int currentEdge;
     float timeLen; // 노트의 길이
     int vertex;
+    int changed_vertex;
     float time;
 
     public Note(int num, float timeLen)
@@ -36,7 +37,7 @@ public class Note : MonoBehaviour
         gameObject.SetActive(true);
     }
 
-    void Start()
+    void Awake()
     {
         mesh = GetComponent<MeshFilter>().mesh;
         outPoly = new Vector3[7];
@@ -44,8 +45,7 @@ public class Note : MonoBehaviour
         noteBlock = new Vector3[4];
         noteBlockIdx = new int[] { 0,3,2,0,2,1 };
         vertex = polygonGenerator.getCurrentPoly();
-        vertex = 6;
-        
+        changed_vertex = polygonGenerator.getCurrentPoly();
     }
     void Update()
     {
@@ -54,25 +54,31 @@ public class Note : MonoBehaviour
         if(time<2000f)
         {
             callDown(time / 2000);
+            callUp(0.0f);
         }
         
         if(time>timeLen)
         {
             callUp((time - timeLen) / 2000);
+            callDown(time / 2000);
         }
         createProceduralMesh();
+        if((time - timeLen) / 2000>=1.0f)
+        {
+            gameObject.SetActive(false);
+        }
         Debug.Log(time + " " + noteBlock[0] + " " + noteBlock[1] + " " + noteBlock[2] + " " + noteBlock[3]);
     }
 
     void callDown(float p)
     {
-        noteBlock[2] = Vector3.Lerp(up1, down1, p);
-        noteBlock[3] = Vector3.Lerp(up2, down2, p);
+        noteBlock[1] = Vector3.Lerp(up1, down1, p);
+        noteBlock[2] = Vector3.Lerp(up2, down2, p);
     }
     void callUp(float p)
     {
         noteBlock[0] = Vector3.Lerp(up1, down1, p);
-        noteBlock[1] = Vector3.Lerp(up2, down2, p);
+        noteBlock[3] = Vector3.Lerp(up2, down2, p);
     }
 
 
@@ -86,9 +92,9 @@ public class Note : MonoBehaviour
         float radius2 = polygonGenerator.getInRadius();
         float deg = (360 - firstDegree) / (vertex - 1);
 
-        for (int i = 1; i <= 2; i++)
+        for (int i = 0; i <= 1; i++)
         {
-            var rad = Mathf.Deg2Rad * (firstDegree * (i - 1));
+            var rad = Mathf.Deg2Rad * (firstDegree * i);
             var x = radius1 * Mathf.Sin(rad);
             var y = radius1 * Mathf.Cos(rad);
             outPoly[i] = new Vector3(x, y);
@@ -96,9 +102,9 @@ public class Note : MonoBehaviour
             y = radius2 * Mathf.Cos(rad);
             inPoly[i] = new Vector3(x, y);
         }
-        for (int i = 3; i <= vertex; i++)
+        for (int i = 2; i < vertex; i++)
         {
-            var rad = Mathf.Deg2Rad * ((deg * (i - 2)) + firstDegree);
+            var rad = Mathf.Deg2Rad * ((deg * (i - 1)) + firstDegree);
             if (i == 1) rad = 0;
             var x = radius1 * Mathf.Sin(rad);
             var y = radius1 * Mathf.Cos(rad);
@@ -118,6 +124,20 @@ public class Note : MonoBehaviour
     void init()
     {
         speed = gameManager.GameSpeed;
+        changed_vertex = polygonGenerator.getCurrentPoly();
+        if(vertex != changed_vertex)
+        {
+            if(currentEdge==0)
+            {
+                gameObject.SetActive(false);
+                return;
+            }
+            else
+            {
+                currentEdge--;
+            }
+            
+        }
         calcPoint();
         calcSquare();
     }
