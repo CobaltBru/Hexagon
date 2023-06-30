@@ -27,7 +27,6 @@ public class Spawner : MonoBehaviour
         }
         else if(time<2.5f)
         {
-            Debug.Log("fdas");
             createNote(2.0f, 1.0f, 1);
         }
     }

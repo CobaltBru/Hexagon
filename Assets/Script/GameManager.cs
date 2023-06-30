@@ -14,9 +14,9 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         polygonGenerator.setPoly(6);
-        note[0].callNote(0, 300.0f);
-        note[1].callNote(2, 600.0f);
-        note[2].callNote(4, 900.0f);
+        note[0].callNote(0, 1.0f);
+        note[1].callNote(2, 2.0f);
+        note[2].callNote(4, 3.0f);
 
     }
 

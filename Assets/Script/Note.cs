@@ -7,7 +7,7 @@ public class Note : MonoBehaviour
     Mesh mesh; //메쉬
     public PolygonGenerator polygonGenerator; // 첫각도와 배경이 몇각형인지 받아온다
     public GameManager gameManager; //게임 속도를 받아온다.
-    int speed; //게임속도 저장
+    float speed; //게임속도 저장
     Vector3[] outPoly; //바깥 다각형의 좌표 저장
     Vector3[] inPoly; //안쪽 다각형의 좌표 저장
     Vector3[] noteBlock; //사각형 노트블럭의 4개의 좌표 저장
@@ -33,7 +33,7 @@ public class Note : MonoBehaviour
     public void callNote(int num, float timeLen)
     {
         currentEdge = num;
-        this.timeLen = timeLen;
+        this.timeLen = timeLen*1000.0f;
         gameObject.SetActive(true);
     }
 
@@ -46,26 +46,28 @@ public class Note : MonoBehaviour
         noteBlockIdx = new int[] { 0,3,2,0,2,1 };
         vertex = polygonGenerator.getCurrentPoly();
         changed_vertex = polygonGenerator.getCurrentPoly();
+        speed = gameManager.GameSpeed/100.0f;
     }
     void Update()
     {
         init();
-        time += Time.deltaTime * speed;
-        if(time<2000f)
+        time += Time.deltaTime*1000.0f*speed;
+        if(time< 1000.0f)
         {
-            callDown(time / 2000);
+            callDown(time / 1000.0f);
             callUp(0.0f);
         }
         
         if(time>timeLen)
         {
-            callUp((time - timeLen) / 2000);
-            callDown(time / 2000);
+            callUp((time - timeLen) / 1000.0f);
+            callDown(time / 1000.0f);
         }
         createProceduralMesh();
-        if((time - timeLen) / 2000>=1.0f)
+        if(((time - timeLen) / 1000.0f) >= 1000.0f)
         {
             gameObject.SetActive(false);
+            return;
         }
         Debug.Log(time + " " + noteBlock[0] + " " + noteBlock[1] + " " + noteBlock[2] + " " + noteBlock[3]);
     }
@@ -88,6 +90,7 @@ public class Note : MonoBehaviour
     {
         vertex = polygonGenerator.getCurrentPoly();
         float firstDegree = polygonGenerator.getfirstDegree();
+        //Debug.Log(firstDegree);
         float radius1 = polygonGenerator.getOutRadius();
         float radius2 = polygonGenerator.getInRadius();
         float deg = (360 - firstDegree) / (vertex - 1);
@@ -123,7 +126,7 @@ public class Note : MonoBehaviour
     }
     void init()
     {
-        speed = gameManager.GameSpeed;
+        speed = gameManager.GameSpeed/100.0f;
         changed_vertex = polygonGenerator.getCurrentPoly();
         if (vertex > changed_vertex)
         {
